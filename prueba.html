@@ -20,11 +20,11 @@
     <div id="resuldatos"></div>
 
     <script type="module">
-        // 1. Corregidas las importaciones usando las URLs CDN completas v9
+        // IMPORTACIONES ÚNICAS (Solo una vez desde la CDN web)
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
         import { getFirestore, addDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
-        // Tus llaves reales de Firebase
+        // Tus llaves del proyecto "prueba-956df"
         const firebaseConfig = {
             apiKey: "AIzaSyChmIunfHmTJzMUGBnNHFKedA783tKoXTQ",
             authDomain: "prueba-956df.firebaseapp.com",
@@ -35,10 +35,11 @@
             appId: "1:29143147624:web:84f8d9af6489cd9c9207dd"
         };
 
+        // INICIALIZACIÓN ÚNICA
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // 2. Definimos window.guardar para enlazarla con el botón "Registrar"
+        // Función para registrar en Firestore
         window.guardar = async function () {
             const usernameValue = document.getElementById('username').value;
 
@@ -48,12 +49,11 @@
             }
 
             try {
-                // Modificado para que use el valor correcto del input
                 await addDoc(collection(db, 'usuarios'), {
                     username: usernameValue
                 });
                 alert('¡Usuario registrado con éxito!');
-                document.getElementById('username').value = ''; // Limpia el input
+                document.getElementById('username').value = ''; // Limpia el campo
             }
             catch (error) {
                 console.error(error);
@@ -61,7 +61,7 @@
             }
         }
 
-        // 3. Función para mostrar los registros
+        // Función para consultar de Firestore
         window.mostrar = async function () {
             try {
                 const querySnapshot = await getDocs(collection(db, 'usuarios'));
